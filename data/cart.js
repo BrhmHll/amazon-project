@@ -27,3 +27,10 @@ export function removeFromCart(productId) {
     }
     saveToStorage();
 }
+
+export function updateDeliveryOptions(productId, deliveryOptionId) {
+    const cartItemIndex = cart.findIndex(p => p.productId === productId);
+    const cartItem = cart[cartItemIndex];
+    cartItem.deliveryOptionId = deliveryOptionId;
+    saveToStorage();
+}

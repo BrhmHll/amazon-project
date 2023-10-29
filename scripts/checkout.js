@@ -1,4 +1,4 @@
-import { cart, removeFromCart } from '../data/cart.js';
+import { cart, removeFromCart, updateDeliveryOptions } from '../data/cart.js';
 import { products } from '../data/products.js';
 import { formatCurrency } from "../scripts/utils/money.js";
 import { hello } from "https://unpkg.com/supersimpledev@1.0.1/hello.esm.js";
@@ -9,10 +9,10 @@ import { deliveryOptions } from "../data/deliveryOptions.js";
 hello();
 
 
-function renderCartSummary() {
+function renderOrderSummary() {
     let cartSummaryHTML = '';
     cart.forEach(cartItem => {
-        
+
         const productId = cartItem.productId;
         const product = products.find(p => p.id === productId);
 
@@ -65,6 +65,22 @@ function renderCartSummary() {
     document.querySelector(".js-order-summary").innerHTML = cartSummaryHTML;
 
     updateCartQuantity();
+
+    document.querySelectorAll(".js-delete-link").forEach((button) => {
+        button.addEventListener("click", () => {
+            const productId = button.dataset.productId;
+            removeFromCart(productId);
+            document.querySelector(`.js-cart-item-container-${productId}`).remove();
+        })
+    });
+
+    document.querySelectorAll(".js-delivery-option").forEach((element) => {
+        element.addEventListener('click', (event) => {
+            const { productId, deliveryOptionId } = element.dataset;
+            updateDeliveryOptions(productId, deliveryOptionId);
+            renderOrderSummary();
+        });
+    });
 }
 
 function deliveryOptionsHTML(product, cartItem) {
@@ -76,7 +92,7 @@ function deliveryOptionsHTML(product, cartItem) {
         const priceString = deliveryOption.priceCents === 0 ? "FREE" : `$${formatCurrency(deliveryOption.priceCents)} -`;
         const isChecked = deliveryOption.id === cartItem.deliveryOptionId ? 'checked' : '';
 
-        html += `<div class="delivery-option">
+        html += `<div class="delivery-option js-delivery-option" data-product-id="${product.id}" data-delivery-option-id="${deliveryOption.id}">
                     <input type="radio" ${isChecked}
                         class="delivery-option-input"
                         name="delivery-option-${product.id}">
@@ -100,13 +116,4 @@ function updateCartQuantity() {
     document.querySelector(".js-checkout-header-items-count-link").innerHTML = cartQuantity + " items";
 }
 
-renderCartSummary();
-
-document.querySelectorAll(".js-delete-link").forEach((button) => {
-    button.addEventListener("click", () => {
-        const productId = button.dataset.productId;
-        removeFromCart(productId);
-        // renderCartSummary();
-        document.querySelector(`.js-cart-item-container-${productId}`).remove();
-    })
-});
+renderOrderSummary();
