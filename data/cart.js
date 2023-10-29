@@ -17,3 +17,12 @@ export function addToCart(productId) {
         cart[productIndex].quantity++;
     }
 }
+
+export function removeFromCart(productId) {
+    let productIndex = cart.findIndex(p => p.productId === productId);
+    if (productIndex == -1) {
+        console.log("");
+    } else {
+        cart.splice(productIndex, 1);
+    }
+}
