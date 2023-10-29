@@ -21,7 +21,7 @@ export function addToCart(productId) {
 export function removeFromCart(productId) {
     let productIndex = cart.findIndex(p => p.productId === productId);
     if (productIndex == -1) {
-        console.log("");
+        console.log("Cart Item Not Found!");
     } else {
         cart.splice(productIndex, 1);
     }
