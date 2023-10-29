@@ -68,6 +68,8 @@ document.querySelectorAll(".js-add-to-cart").forEach((button) => {
             cart[productIndex].quantity++;
         }
         
-        console.log(cart);
+        let cartQuantity = 0;
+        cart.every(p => cartQuantity += p.quantity);
+        document.querySelector(".js-cart-quantity").innerHTML = cartQuantity;
     });
 });
