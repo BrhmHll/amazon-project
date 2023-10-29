@@ -9,7 +9,8 @@ export function addToCart(productId) {
     if (productIndex == -1) {
         cart.push({
             productId: productId,
-            quantity: 1
+            quantity: 1,
+            deliveryOptionId: '1'
         });
     } else {
         cart[productIndex].quantity++;
