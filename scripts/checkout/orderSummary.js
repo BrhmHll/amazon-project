@@ -1,4 +1,4 @@
-import { cart, removeFromCart, updateDeliveryOptions } from '../../data/cart.js';
+import { cart, removeFromCart, updateDeliveryOptions, getCartItemsCount } from '../../data/cart.js';
 import { getProduct } from '../../data/products.js';
 import { formatCurrency } from "../utils/money.js";
 import dayjs from "https://unpkg.com/dayjs@1.11.10/esm/index.js";
@@ -110,7 +110,6 @@ function deliveryOptionsHTML(product, cartItem) {
 }
 
 function updateCartQuantity() {
-    let cartQuantity = 0;
-    cart.every(p => cartQuantity += p.quantity);
+    const cartQuantity = getCartItemsCount();
     document.querySelector(".js-checkout-header-items-count-link").innerHTML = cartQuantity + " items";
 }

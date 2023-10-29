@@ -34,3 +34,9 @@ export function updateDeliveryOptions(productId, deliveryOptionId) {
     cartItem.deliveryOptionId = deliveryOptionId;
     saveToStorage();
 }
+
+export function getCartItemsCount() {
+    let cartQuantity = 0;
+    cart.every(p => cartQuantity += p.quantity);
+    return cartQuantity;
+}
